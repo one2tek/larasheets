@@ -60,6 +60,11 @@ class GoogleSheetService
         return $this->larasheetsService->getAll();
     }
 
+    public function getByLine($line)
+    {
+        return $this->larasheetsService->getByLine($line);
+    }
+
     public function update($line, $data)
     {
         $data = [$data['key'], $data['en'], $data['es']];

@@ -51,6 +51,7 @@ class GoogleSheetService
     {
         $spreadsheetId = 'spreadsheet-id-from-console';
         $sheetName = 'sheet-name-from-console';
+        $headers = ['Column1', 'Column2', 'Column3'];
 
         $this->larasheetsService = new LarasheetsService($spreadsheetId, $sheetName);
     }
@@ -67,14 +68,14 @@ class GoogleSheetService
 
     public function update($line, $data)
     {
-        $data = [$data['key'], $data['en'], $data['es']];
+        $data = [$data['column1'], $data['column2'], $data['column3']];
         
         return $this->larasheetsService->updateByLine($line, $data);
     }
 
     public function create($data)
     {
-        $data = [$data['key'], $data['en'], $data['es']];
+        $data = [$data['column1'], $data['column2'], $data['column3']];
        
         return $this->larasheetsService->create($data);
     }

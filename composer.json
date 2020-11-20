@@ -21,6 +21,13 @@
     "config": {
         "sort-packages": true
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "one2tek\\larasheets\\Providers\\LaravelServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }

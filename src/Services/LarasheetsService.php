@@ -1,3 +1,4 @@
+
 <?php
 
 namespace one2tek\larasheets\Services;
@@ -12,8 +13,9 @@ class LarasheetsService
     private $client;
     private $spreadsheetId;
     private $sheetName;
+    private $headers;
 
-    public function __construct($spreadsheetId, $sheetName)
+    public function __construct($spreadsheetId, $sheetName, $headers)
     {
         $this->sheets = new Sheets;
         $this->client = new Google_Client(config('larasheets'));
@@ -26,24 +28,64 @@ class LarasheetsService
 
         $this->spreadsheetId = $spreadsheetId;
         $this->sheetName = $sheetName;
+        $this->headers = $headers;
     }
 
     public function getAll()
     {
         $sheetRows = $this->sheets->spreadsheet($this->spreadsheetId)->sheet($this->sheetName)->get();
-        $headers = $sheetRows->pull(0);
+
         $allRows = [];
+
+        if (count($sheetRows) == 0) {
+            return [];
+        }
 
         foreach ($sheetRows as $key => $value) {
             $values['line'] = ($key + 1);
-            foreach ($headers as $f => $header) {
-                $values[$header] = $value[$f];
+            foreach ($value as $key => $val) {
+                $values[$this->headers[$key] ?? '(No Header)'] = $val;
             }
             
             $allRows[] = $values;
         }
 
         return $allRows;
+    }
+
+    public function getByRange($range)
+    {
+        $sheetRows = $this->sheets->spreadsheet($this->spreadsheetId)->range($range)->sheet($this->sheetName)->get();
+        $allRows = [];
+
+        if (count($sheetRows) == 0) {
+            return [];
+        }
+
+        foreach ($sheetRows as $value) {
+            foreach ($value as $key => $val) {
+                $values[$this->headers[$key] ?? '(No Header)'] = $val;
+            }
+            
+            $allRows[] = $values;
+        }
+
+        return $allRows;
+    }
+
+    public function getByLine($line)
+    {
+        $cell = 'A'. $line. ':'. chr(64 + count($this->headers)). $line;
+
+        $sheetRow = $this->sheets->spreadsheet($this->spreadsheetId)->range($cell)->sheet($this->sheetName)->first();
+        $row = [];
+
+        $row['line'] = $line;
+        foreach ($this->headers as $key => $header) {
+            $row[$header] = $sheetRow[$key];
+        }
+
+        return $row;
     }
 
     public function updateByLine($line, $data)

@@ -14,7 +14,7 @@ composer require one2tek/larasheets
 
 **Copy Config**
 
-Run `php artisan vendor:publish --provider="one2tek\Larasheets\LarasheetsServiceProvider" --tag="config"` to publish the google config file.
+Run `php artisan vendor:publish --provider="one2tek\larasheets\Providers\LaravelServiceProvider" --tag="config"` to publish the google config file.
 
 **Get API Credentials**
 

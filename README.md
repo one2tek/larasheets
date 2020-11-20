@@ -53,7 +53,7 @@ class GoogleSheetService
         $sheetName = 'sheet-name-from-console';
         $headers = ['Column1', 'Column2', 'Column3'];
 
-        $this->larasheetsService = new LarasheetsService($spreadsheetId, $sheetName);
+        $this->larasheetsService = new LarasheetsService($spreadsheetId, $sheetName, $headers);
     }
 
     public function getAll()

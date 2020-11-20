@@ -14,7 +14,7 @@ class LaravelServiceProvider extends BaseProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__. '../../larasheets/larapi.php',
+            __DIR__. '../../Config/larasheets.php',
             'larasheets'
         );
     }

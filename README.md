@@ -49,8 +49,8 @@ class GoogleSheetService
 
     public function __construct()
     {
-        $spreadsheetId = '..';
-        $sheetName = '...';
+        $spreadsheetId = 'spreadsheet-id-from-console';
+        $sheetName = 'sheet-name-from-console';
 
         $this->larasheetsService = new LarasheetsService($spreadsheetId, $sheetName);
     }

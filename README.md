@@ -37,7 +37,7 @@ GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION=
 
 Follow the steps below to find how to use the package
 
-```
+```php
 <?php
 
 use one2tek\larasheets\Services\LarasheetsService;

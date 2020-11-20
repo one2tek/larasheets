@@ -31,3 +31,46 @@ GOOGLE_REDIRECT=
 GOOGLE_DEVELOPER_KEY=
 GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION=
 ```
+
+
+## Usage
+
+Follow the steps below to find how to use the package
+
+```
+<?php
+
+use one2tek\larasheets\Services\LarasheetsService;
+
+class GoogleSheetService
+{
+    private $googleSpreadsheetService;
+
+    public function __construct()
+    {
+        $spreadsheetId = '..';
+        $sheetName = '...';
+
+        $this->googleSpreadsheetService = new GoogleSpreadsheetService($spreadsheetId, $sheetName);
+    }
+
+    public function getAll()
+    {
+        return $this->googleSpreadsheetService->getAll();
+    }
+
+    public function update($line, $data)
+    {
+        $data = [$data['key'], $data['en'], $data['es']];
+        
+        return $this->googleSpreadsheetService->updateByLine($line, $data);
+    }
+
+    public function create($data)
+    {
+        $data = [$data['key'], $data['en'], $data['es']];
+       
+        return $this->googleSpreadsheetService->create($data);
+    }
+}
+```

@@ -2,7 +2,7 @@
 
 **Larasheets** is a package thats offers you to connect with Google Sheets via API in Laravel.
 
-## Installation
+### Installation
 
 Follow the steps below to install the package
 
@@ -33,7 +33,7 @@ GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION=
 ```
 
 
-## Usage
+### Usage
 
 Follow the steps below to find how to use the package
 

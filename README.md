@@ -45,33 +45,33 @@ use one2tek\larasheets\Services\LarasheetsService;
 
 class GoogleSheetService
 {
-    private $googleSpreadsheetService;
+    private $larasheetsService;
 
     public function __construct()
     {
         $spreadsheetId = '..';
         $sheetName = '...';
 
-        $this->googleSpreadsheetService = new GoogleSpreadsheetService($spreadsheetId, $sheetName);
+        $this->larasheetsService = new LarasheetsService($spreadsheetId, $sheetName);
     }
 
     public function getAll()
     {
-        return $this->googleSpreadsheetService->getAll();
+        return $this->larasheetsService->getAll();
     }
 
     public function update($line, $data)
     {
         $data = [$data['key'], $data['en'], $data['es']];
         
-        return $this->googleSpreadsheetService->updateByLine($line, $data);
+        return $this->larasheetsService->updateByLine($line, $data);
     }
 
     public function create($data)
     {
         $data = [$data['key'], $data['en'], $data['es']];
        
-        return $this->googleSpreadsheetService->create($data);
+        return $this->larasheetsService->create($data);
     }
 }
 ```

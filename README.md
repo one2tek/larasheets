@@ -4,7 +4,8 @@
 
 ### Installation
 
-Follow the steps below to install the package
+Follow the steps below to install the package.
+
 
 **Composer**
 
@@ -35,7 +36,7 @@ GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION=
 
 ### Usage
 
-Follow the steps below to find how to use the package
+Follow the steps below to find how to use the package.
 
 ```php
 <?php

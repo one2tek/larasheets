@@ -33,6 +33,17 @@ GOOGLE_DEVELOPER_KEY=
 GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION=
 ```
 
+### Cache
+
+`Larasheets` also support cache system, you just need to to configure at `config/larasheets.php`.
+
+```
+laravel_cache' => [
+    'enable' => true,
+    'driver' => 'file',
+    'remember_in_seconds' => 600
+]
+```
 
 ### Usage
 

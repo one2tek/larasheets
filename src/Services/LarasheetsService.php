@@ -1,4 +1,3 @@
-
 <?php
 
 namespace one2tek\larasheets\Services;

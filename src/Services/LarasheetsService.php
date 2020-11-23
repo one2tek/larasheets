@@ -5,6 +5,7 @@ namespace one2tek\larasheets\Services;
 use Google_Client;
 use Google_Service_Sheets;
 use Revolution\Google\Sheets\Sheets;
+use Illuminate\Support\Facades\Cache;
 
 class LarasheetsService
 {
@@ -30,8 +31,20 @@ class LarasheetsService
         $this->headers = $headers;
     }
 
-    public function getAll()
+    public function getAll($except = [])
     {
+        if ($this->isCacheEnabled()) {
+            if ($this->isFileInCache()) {
+                $data = $this->getFileInCache();
+
+                if (!count($except)) {
+                    return $data;
+                }
+
+                return $this->parseData($data, $except);
+            }
+        }
+
         $sheetRows = $this->sheets->spreadsheet($this->spreadsheetId)->sheet($this->sheetName)->get();
 
         $allRows = [];
@@ -49,7 +62,13 @@ class LarasheetsService
             $allRows[] = $values;
         }
 
-        return $allRows;
+        if (!$this->isCacheEnabled()) {
+            return $allRows;
+        }
+
+        return Cache::remember('larasheets.'. $this->spreadsheetId. $this->sheetName, config('larasheets.laravel_cache.remember_in_seconds'), function () use ($allRows) {
+            return $allRows;
+        });
     }
 
     public function getByRange($range)
@@ -72,8 +91,12 @@ class LarasheetsService
         return $allRows;
     }
 
-    public function getByLine($line)
+    public function getByLine(int $line)
     {
+        if ($this->isCacheEnabled()) {
+            return $this->getFileInCache()[$line - 1];
+        }
+
         $cell = 'A'. $line. ':'. chr(64 + count($this->headers)). $line;
 
         $sheetRow = $this->sheets->spreadsheet($this->spreadsheetId)->range($cell)->sheet($this->sheetName)->first();
@@ -87,9 +110,11 @@ class LarasheetsService
         return $row;
     }
 
-    public function updateByLine($line, $data)
+    public function updateByLine(int $line, $data)
     {
         $cell = $this->sheets->spreadsheet($this->spreadsheetId)->sheet($this->sheetName)->range('A'. $line)->update([$data]);
+
+        $this->removeFileInCache();
 
         return true;
     }
@@ -98,6 +123,39 @@ class LarasheetsService
     {
         $cell = $this->sheets->spreadsheet($this->spreadsheetId)->sheet($this->sheetName)->append([$data]);
 
+        $this->removeFileInCache();
+
         return true;
+    }
+
+    public function isCacheEnabled()
+    {
+        return config('larasheets.laravel_cache.enable');
+    }
+
+    public function isFileInCache()
+    {
+        return Cache::has('larasheets.'. $this->spreadsheetId. $this->sheetName);
+    }
+
+    public function getFileInCache()
+    {
+        return Cache::get('larasheets.'. $this->spreadsheetId. $this->sheetName);
+    }
+
+    public function removeFileInCache()
+    {
+        return Cache::forget('larasheets.'. $this->spreadsheetId. $this->sheetName);
+    }
+
+    public function parseData($data, $except)
+    {
+        $collection = collect($data);
+
+        $collection = $collection->map(function ($item, $key) use ($except) {
+            return collect($item)->except($except);
+        });
+
+        return $collection;
     }
 }

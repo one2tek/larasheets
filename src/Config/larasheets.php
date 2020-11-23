@@ -69,5 +69,15 @@ return [
     | NOTE: If client id is specified here, it will get over written by the one above.
     |
     */
-    'config' => []
+    'config' => [],
+
+    /*
+    |----------------------------------------------------------------------------
+    | Config for Cache
+    |----------------------------------------------------------------------------
+     */
+    'laravel_cache' => [
+        'enable' => true,
+        'remember_in_seconds' => 600
+    ]
 ];

@@ -78,6 +78,7 @@ return [
      */
     'laravel_cache' => [
         'enable' => true,
+        'driver' => 'file',
         'remember_in_seconds' => 600
     ]
 ];

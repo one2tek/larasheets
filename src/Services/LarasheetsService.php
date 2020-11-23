@@ -66,7 +66,7 @@ class LarasheetsService
             return $allRows;
         }
 
-        return Cache::remember('larasheets.'. $this->spreadsheetId. $this->sheetName, config('larasheets.laravel_cache.remember_in_seconds'), function () use ($allRows) {
+        return Cache::store(config('larasheets.laravel_cache.driver'))->remember('larasheets.'. $this->spreadsheetId. $this->sheetName, config('larasheets.laravel_cache.remember_in_seconds'), function () use ($allRows) {
             return $allRows;
         });
     }
@@ -135,17 +135,17 @@ class LarasheetsService
 
     public function isFileInCache()
     {
-        return Cache::has('larasheets.'. $this->spreadsheetId. $this->sheetName);
+        return Cache::store(config('larasheets.laravel_cache.driver'))->has('larasheets.'. $this->spreadsheetId. $this->sheetName);
     }
 
     public function getFileInCache()
     {
-        return Cache::get('larasheets.'. $this->spreadsheetId. $this->sheetName);
+        return Cache::store(config('larasheets.laravel_cache.driver'))->get('larasheets.'. $this->spreadsheetId. $this->sheetName);
     }
 
     public function removeFileInCache()
     {
-        return Cache::forget('larasheets.'. $this->spreadsheetId. $this->sheetName);
+        return Cache::store(config('larasheets.laravel_cache.driver'))->forget('larasheets.'. $this->spreadsheetId. $this->sheetName);
     }
 
     public function parseData($data, $except)

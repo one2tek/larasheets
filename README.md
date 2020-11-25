@@ -41,7 +41,8 @@ GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION=
 laravel_cache' => [
     'enable' => true,
     'driver' => 'file',
-    'remember_in_seconds' => 600
+    'remember_forever' => false,
+    'remember_in_seconds' => 600 // 10 minutes
 ]
 ```
 

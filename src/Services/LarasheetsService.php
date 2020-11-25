@@ -66,9 +66,7 @@ class LarasheetsService
             return $allRows;
         }
 
-        return Cache::store(config('larasheets.laravel_cache.driver'))->remember('larasheets.'. $this->spreadsheetId. $this->sheetName, config('larasheets.laravel_cache.remember_in_seconds'), function () use ($allRows) {
-            return $allRows;
-        });
+        return $this->addFileInCache($allRows);
     }
 
     public function getByRange($range)
@@ -146,6 +144,21 @@ class LarasheetsService
     public function removeFileInCache()
     {
         return Cache::store(config('larasheets.laravel_cache.driver'))->forget('larasheets.'. $this->spreadsheetId. $this->sheetName);
+    }
+
+    public function addFileInCache($allRows)
+    {
+        $key = 'larasheets.'. $this->spreadsheetId. $this->sheetName;
+
+        $closure = function () use ($allRows) {
+            return $allRows;
+        };
+
+        if (config('larasheets.laravel_cache.remember_forever')) {
+            return Cache::store(config('larasheets.laravel_cache.driver'))->rememberForever($key, $closure);
+        }
+
+        return Cache::store(config('larasheets.laravel_cache.driver'))->remember($key, config('larasheets.laravel_cache.remember_in_seconds'), $closure);
     }
 
     public function parseData($data, $except)

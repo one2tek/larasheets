@@ -6,7 +6,7 @@ return [
     | Google application name
     |----------------------------------------------------------------------------
     */
-    'application_name' => env('GOOGLE_APPLICATION_NAME', ''),
+    'application_name' => env('GOOGLE_APPLICATION_NAME', null),
 
     /*
     |----------------------------------------------------------------------------
@@ -17,9 +17,9 @@ return [
     | https://developers.google.com/console
     |
     */
-    'client_id' => env('GOOGLE_CLIENT_ID', ''),
-    'client_secret' => env('GOOGLE_CLIENT_SECRET', ''),
-    'redirect_uri' => env('GOOGLE_REDIRECT', ''),
+    'client_id' => env('GOOGLE_CLIENT_ID', null),
+    'client_secret' => env('GOOGLE_CLIENT_SECRET', null),
+    'redirect_uri' => env('GOOGLE_REDIRECT', null),
     'scopes' => [\Google_Service_Sheets::DRIVE, \Google_Service_Sheets::SPREADSHEETS],
     'access_type' => 'online',
     'approval_prompt' => 'auto',
@@ -33,7 +33,7 @@ return [
     | a Server key, and not a Browser key.
     |
     */
-    'developer_key' => env('GOOGLE_DEVELOPER_KEY', ''),
+    'developer_key' => env('GOOGLE_DEVELOPER_KEY', null),
 
     /*
     |----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
          * Path to service account json file. You can also pass the credentials as an array
          * instead of a file path.
          */
-        'file' => env('GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION'),
+        'file' => env('GOOGLE_SERVICE_ACCOUNT_JSON_LOCATION', null),
     ],
 
     /*
